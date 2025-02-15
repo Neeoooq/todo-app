@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [activities, setActivities] = useState([]);
@@ -9,6 +9,17 @@ export default function Home() {
   const [type, setType] = useState('education');
   const [bookingRequired, setBookingRequired] = useState(false);
   const [accessibility, setAccessibility] = useState(0.5);
+
+  useEffect(() => {
+    const savedActivities = JSON.parse(localStorage.getItem('activities'));
+    if (savedActivities) {
+      setActivities(savedActivities);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('activities', JSON.stringify(activities));
+  }, [activities]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +69,6 @@ export default function Home() {
       }}>
         Total Items: {activities.length}
       </div>
-
 
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {activities.map((item, index) => (
