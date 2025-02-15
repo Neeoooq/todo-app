@@ -3,13 +3,17 @@
 import { useState, useEffect } from 'react';
 
 export default function Home() {
+  // state to hold the list of activities
   const [activities, setActivities] = useState([]);
+
+  // state for form inputs
   const [activity, setActivity] = useState('');
   const [price, setPrice] = useState('');
   const [type, setType] = useState('education');
   const [bookingRequired, setBookingRequired] = useState(false);
   const [accessibility, setAccessibility] = useState(0.5);
 
+  // load saved activities from localstorage when page opens
   useEffect(() => {
     const savedActivities = JSON.parse(localStorage.getItem('activities'));
     if (savedActivities) {
@@ -17,14 +21,17 @@ export default function Home() {
     }
   }, []);
 
+  // save activities to localstorage every time it changes
   useEffect(() => {
     localStorage.setItem('activities', JSON.stringify(activities));
   }, [activities]);
 
+  // handle form submit, add new activity to the list
   const handleSubmit = (e) => {
     e.preventDefault();
     const newActivity = { activity, price, type, bookingRequired, accessibility };
     setActivities([...activities, newActivity]);
+    // reset form inputs
     setActivity('');
     setPrice('');
     setType('education');
@@ -32,6 +39,7 @@ export default function Home() {
     setAccessibility(0.5);
   };
 
+  // remove activity by index
   const handleDelete = (index) => {
     setActivities(activities.filter((_, i) => i !== index));
   };
@@ -40,6 +48,7 @@ export default function Home() {
     <div style={{ padding: '20px', color: 'white' }}>
       <h1>To-Do List</h1>
 
+      {/* form to add new activity */}
       <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
         <input type="text" placeholder="Activity" value={activity} onChange={(e) => setActivity(e.target.value)} required />
         <input type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required />
@@ -56,6 +65,7 @@ export default function Home() {
         <button type="submit">Add Activity</button>
       </form>
 
+      {/* display total items */}
       <div style={{
         backgroundColor: '#333',
         padding: '10px 15px',
@@ -70,6 +80,7 @@ export default function Home() {
         Total Items: {activities.length}
       </div>
 
+      {/* display list of activities */}
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {activities.map((item, index) => (
           <li
@@ -90,6 +101,7 @@ export default function Home() {
             <div><strong>Booking Required:</strong> {item.bookingRequired ? 'Yes' : 'No'}</div>
             <div><strong>Accessibility:</strong> {item.accessibility}</div>
 
+            {/* delete button */}
             <button
               onClick={() => handleDelete(index)}
               style={{
