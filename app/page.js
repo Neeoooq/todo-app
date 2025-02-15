@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div style={{ padding: '20px', color: 'white' }}>
       <h1>To-Do List</h1>
-  
+
       <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
         <input type="text" placeholder="Activity" value={activity} onChange={(e) => setActivity(e.target.value)} required />
         <input type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required />
@@ -44,6 +44,22 @@ export default function Home() {
         <input type="range" min="0" max="1" step="0.01" value={accessibility} onChange={(e) => setAccessibility(parseFloat(e.target.value))} />
         <button type="submit">Add Activity</button>
       </form>
+
+      <div style={{
+        backgroundColor: '#333',
+        padding: '10px 15px',
+        borderRadius: '8px',
+        marginTop: '10px',
+        marginBottom: '10px',
+        fontSize: '18px',
+        fontWeight: 'bold',
+        color: 'lightgreen',
+        display: 'inline-block'
+      }}>
+        Total Items: {activities.length}
+      </div>
+
+
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {activities.map((item, index) => (
           <li
@@ -73,7 +89,7 @@ export default function Home() {
                 padding: '5px 10px',
                 borderRadius: '5px',
                 cursor: 'pointer',
-                alignSelf: 'flex-start', 
+                alignSelf: 'flex-start',
               }}
             >
               Delete
@@ -82,5 +98,5 @@ export default function Home() {
         ))}
       </ul>
     </div>
-  );  
+  );
 }
