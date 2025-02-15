@@ -21,6 +21,10 @@ export default function Home() {
     setAccessibility(0.5);
   };
 
+  const handleDelete = (index) => {
+    setActivities(activities.filter((_, i) => i !== index));
+  };
+
   return (
     <div style={{ padding: '20px', color: 'white' }}>
       <h1>To-Do List</h1>
@@ -40,6 +44,43 @@ export default function Home() {
         <input type="range" min="0" max="1" step="0.01" value={accessibility} onChange={(e) => setAccessibility(parseFloat(e.target.value))} />
         <button type="submit">Add Activity</button>
       </form>
+      <ul style={{ listStyleType: 'none', padding: 0 }}>
+        {activities.map((item, index) => (
+          <li
+            key={index}
+            style={{
+              backgroundColor: '#222',
+              padding: '10px',
+              marginBottom: '10px',
+              borderRadius: '8px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '5px',
+            }}
+          >
+            <div><strong>Activity:</strong> {item.activity}</div>
+            <div><strong>Price:</strong> ${item.price}</div>
+            <div><strong>Type:</strong> {item.type}</div>
+            <div><strong>Booking Required:</strong> {item.bookingRequired ? 'Yes' : 'No'}</div>
+            <div><strong>Accessibility:</strong> {item.accessibility}</div>
+
+            <button
+              onClick={() => handleDelete(index)}
+              style={{
+                backgroundColor: 'red',
+                color: 'white',
+                border: 'none',
+                padding: '5px 10px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                alignSelf: 'flex-start', 
+              }}
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );  
 }
